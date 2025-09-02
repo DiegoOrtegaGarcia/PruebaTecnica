@@ -20,7 +20,7 @@ const router = createRouter({
 // Guardia de navegación global
 router.beforeEach((to, from, next) => {
   // Lista de rutas públicas (siempre accesibles)
-  const publicRoutes = ['/login', '/register']
+  const publicRoutes = ['/login', '/register', '/']
 
   // Verifica si la ruta actual requiere autenticación
   const isAuthRequired = !publicRoutes.includes(to.path)
@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
     next('/login?redirect=' + encodeURIComponent(to.fullPath))
   } else if (!isAuthRequired && isAuthenticated()) {
     // Si ya está autenticado y trata de acceder a login/register, redirige a inicio
-    next('/')
+    next('/pages')
   } else {
     // Permite la navegación
     next()

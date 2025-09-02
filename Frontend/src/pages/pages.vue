@@ -1,5 +1,5 @@
 <template>
-  hi
+  <FormComponent />
 </template>
 
 <script lang="ts" setup>
