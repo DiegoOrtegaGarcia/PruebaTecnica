@@ -1,7 +1,7 @@
 import type { ApiErrorResponse, userDataLoginForm } from '@/types/types'
 import { isAxiosError } from 'axios'
 import api from '@/axios/axios'
-import { setAuthToken } from './tokenHelpers'
+import { setAuthToken } from '../tokenHelpers'
 
 export const loginUser = async (request: userDataLoginForm, isLoaded: Ref<boolean>) => {
   try {

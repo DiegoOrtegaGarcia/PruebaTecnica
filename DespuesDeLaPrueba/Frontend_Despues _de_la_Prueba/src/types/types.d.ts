@@ -33,6 +33,14 @@ export interface PeopleData {
   email: string
 }
 
+export interface FormData{
+  name: string
+  lastName: string
+  age: string
+  sex: string
+  email: string
+}
+
 export interface FormFielStatus {
   name: boolean
   lastName: boolean

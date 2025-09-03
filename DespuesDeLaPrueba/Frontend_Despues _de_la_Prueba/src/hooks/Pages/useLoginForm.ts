@@ -1,6 +1,6 @@
 import type { AlertMessage, AlertStatus, userDataLoginForm } from '@/types/types'
 import { useField, useForm } from 'vee-validate'
-import { loginUser } from '@/helpers/loginUser'
+import { loginUser } from '@/helpers/Api/loginUser'
 
 export function useLoginForm (alertMessage: (response: AlertMessage) => void, finishMessage: (status: AlertStatus) => void) {
   const { handleSubmit } = useForm<userDataLoginForm>({

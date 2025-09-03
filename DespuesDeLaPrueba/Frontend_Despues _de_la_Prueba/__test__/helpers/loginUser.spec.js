@@ -1,5 +1,5 @@
 import { describe, it, expect, vi,beforeEach } from 'vitest'
-import { loginUser } from '@/helpers/loginUser'
+import { loginUser } from '@/helpers/Api/loginUser'
 import api from '@/axios/axios'
 
 // Mock axios

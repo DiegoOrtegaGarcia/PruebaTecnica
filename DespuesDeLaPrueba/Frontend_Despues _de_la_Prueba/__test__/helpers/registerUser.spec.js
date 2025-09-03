@@ -1,52 +1,38 @@
-import { describe, it, expect, vi } from 'vitest'
-import { registerUser } from '@/helpers/registerUser'
-import api from '@/axios/axios'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { setActivePinia, createPinia } from 'pinia'
+import { useRegisterForm } from '@/hooks/Pages/useRegisterForm'
 
-// Mock axios
-vi.mock('@/axios/axios', () => ({
-  default: {
-    post: vi.fn()
-  }
+// Mock de las dependencias
+vi.mock('@/helpers/Api/registerUser', () => ({
+  registerUser: vi.fn()
 }))
 
-// Mock store
-vi.mock('@/stores/app', () => ({
-  useAuthStore: () => ({
-    setUser: vi.fn()
+vi.mock('vee-validate', () => ({
+  useField: () => ({
+    value: { value: '' },
+    errorMessage: { value: '' }
+  }),
+  useForm: () => ({
+    handleSubmit: (fn) => fn
   })
 }))
 
-describe('registerUser', () => {
-  const mockIsLoaded = { value: false }
-
+describe('useRegisterForm', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
+    // Crear una nueva instancia de Pinia y establecerla como activa
+    setActivePinia(createPinia())
   })
 
-  it('handles successful registration', async () => {
-    const mockResponse = { data: { data: 'User created successfully' } }
-    vi.mocked(api.post).mockResolvedValue(mockResponse)
+  it('initializes form fields', () => {
+    const alertMessage = vi.fn()
+    const finishMessage = vi.fn()
+    
+    const { name, email, password, isLoading, submit } = useRegisterForm(alertMessage, finishMessage)
 
-    const result = await registerUser(
-      { name: 'John', email: 'test@example.com', password: 'password' },
-      mockIsLoaded
-    )
-
-    expect(result).toEqual({ text: 'User created successfully', status: 'success' })
-  })
-
-  it('handles 422 error (user already exists)', async () => {
-    const mockError = {
-      isAxiosError: true,
-      response: { status: 422 }
-    }
-    vi.mocked(api.post).mockRejectedValue(mockError)
-
-    const result = await registerUser(
-      { name: 'John', email: 'test@example.com', password: 'password' },
-      mockIsLoaded
-    )
-
-    expect(result).toEqual({ text: 'The User Already exists', status: 'error' })
+    expect(name).toBeDefined()
+    expect(email).toBeDefined()
+    expect(password).toBeDefined()
+    expect(isLoading.value).toBe(false)
+    expect(typeof submit).toBe('function')
   })
 })

@@ -12,61 +12,56 @@
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field
-                  v-model="formData.name"
+                  v-model="name.value.value"
                   class="mb-3"
                   clearable
-                  :error-messages="nameError"
+                  :error-messages="name.errorMessage.value"
                   label="Nombre"
                   variant="outlined"
-                  @blur="validateField('name',true)"
                 />
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
-                  v-model="formData.lastName"
+                  v-model="lastName.value.value"
                   class="mb-3"
                   clearable
-                  :error-messages="lastNameError"
+                  :error-messages="lastName.errorMessage.value"
                   label="Apellidos"
                   variant="outlined"
-                  @blur="validateField('lastName',true)"
                 />
               </v-col>
               <v-col cols="12" md="4">
                 <v-text-field
-                  v-model="formData.age"
+                  v-model="age.value.value"
                   class="mb-3"
-                  :error-messages="ageError"
+                  :error-messages="age.errorMessage.value"
                   label="Edad"
                   max="120"
                   min="0"
                   type="number"
                   variant="outlined"
-                  @blur="validateField('age',true)"
                 />
               </v-col>
               <v-col cols="12" md="4">
                 <v-select
-                  v-model="formData.sex"
+                  v-model="sex.value.value"
                   class="mb-3"
                   clearable
-                  :error-messages="sexError"
+                  :error-messages="sex.errorMessage.value"
                   :items="genderOptions"
                   label="Sexo"
                   variant="outlined"
-                  @blur="validateField('sex',true)"
                 />
               </v-col>
               <v-col cols="12" md="4">
                 <v-text-field
-                  v-model="formData.email"
+                  v-model="email.value.value"
                   class="mb-3"
                   clearable
-                  :error-messages="emailError"
+                  :error-messages="email.errorMessage.value"
                   label="Correo electrónico"
                   type="email"
                   variant="outlined"
-                  @blur="validateField('email',true)"
                 />
               </v-col>
             </v-row>
@@ -212,9 +207,9 @@
                   <div class="text-h4 text-indigo">{{ users.length }}</div>
                 </v-card-text>
               </v-card>
-              <v-card v-if="formData.name && nationality" class="mt-4" variant="outlined">
+              <v-card v-if="name.value.value && nationality" class="mt-4" variant="outlined">
                 <v-card-text class="text-center">
-                  <div class="text-subtitle-2">Nacionalidad probable para "{{ formData.name }}"</div>
+                  <div class="text-subtitle-2">Nacionalidad probable para "{{ name.value.value }}"</div>
                   <div class="text-h6 text-deep-purple">{{ nationality.country_name }}</div>
                   <div class="text-caption">Probabilidad: {{ (nationality.probability * 100).toFixed(1) }}%</div>
                 </v-card-text>
@@ -252,9 +247,12 @@
 </template>
 
 <script setup>
-  import { useFormCoponent } from '@/hooks/useFormComponent'
+  import { useFormComponent } from '@/hooks/useFormComponent'
   import UserComponent from './UserComponent.vue'
-  const { submitForm, formData, nameError, validateField, lastNameError, ageError, sexError, genderOptions, emailError, loading, resetForm, loadingUsers, users, getSexColor, getSexLabel, userNationalities, deleteUser, averageAge, usersBySex, youngestUser, snackbar, deleteDialog, deleting, confirmDelete, nationality, oldestUser } = useFormCoponent()
+  import { genderOptions } from '@/constants/constants'
+  import{getSexColor,getSexLabel} from "@/helpers/getSexnfo" 
+  const {submitForm,loading, resetForm, loadingUsers, users, userNationalities, deleteUser, averageAge,usersBySex, youngestUser, snackbar, deleteDialog, deleting, confirmDelete,nationality, oldestUser, name, lastName, email, sex, age 
+} = useFormComponent()
 
 </script>
 

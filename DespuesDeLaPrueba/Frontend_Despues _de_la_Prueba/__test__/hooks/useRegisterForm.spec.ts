@@ -1,7 +1,12 @@
-import { describe, it, expect, vi } from 'vitest'
-import { useRegisterForm } from '../../src/hooks/Pages/useRegisterForm'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { setActivePinia, createPinia } from 'pinia'
+import { useRegisterForm } from '@/hooks/Pages/useRegisterForm'
 
-// Mock vee-validate and registerUser
+// Mock de las dependencias
+vi.mock('@/helpers/Api/registerUser', () => ({
+  registerUser: vi.fn()
+}))
+
 vi.mock('vee-validate', () => ({
   useField: () => ({
     value: { value: '' },
@@ -12,11 +17,21 @@ vi.mock('vee-validate', () => ({
   })
 }))
 
-vi.mock('@/helpers/registerUser', () => ({
-  registerUser: vi.fn()
-}))
+// Mock de Vue
+vi.mock('vue', async () => {
+  const actual = await vi.importActual('vue')
+  return {
+    ...actual,
+    ref: vi.fn((initialValue) => ({ value: initialValue })),
+  }
+})
 
 describe('useRegisterForm', () => {
+  beforeEach(() => {
+    // Configurar Pinia
+    setActivePinia(createPinia())
+  })
+
   it('initializes form fields', () => {
     const alertMessage = vi.fn()
     const finishMessage = vi.fn()
