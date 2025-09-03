@@ -1,17 +1,17 @@
+import { fileURLToPath, URL } from 'node:url'
+import Vue from '@vitejs/plugin-vue'
 // Plugins
 import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
 import Fonts from 'unplugin-fonts/vite'
-import Layouts from 'vite-plugin-vue-layouts-next'
-import Vue from '@vitejs/plugin-vue'
-import VueRouter from 'unplugin-vue-router/vite'
+import Components from 'unplugin-vue-components/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
-import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-
+import VueRouter from 'unplugin-vue-router/vite'
 // Utilities
 import { defineConfig } from 'vite'
-import { fileURLToPath, URL } from 'node:url'
+import Layouts from 'vite-plugin-vue-layouts-next'
 
+import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import { configDefaults } from 'vitest/config'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -58,6 +58,32 @@ export default defineConfig({
       },
     }),
   ],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    exclude: [...configDefaults.exclude, 'e2e/**'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'src/auto-imports.d.ts',
+        'src/components.d.ts',
+        'src/typed-router.d.ts',
+        '**/*.css',
+        '**/*.scss'
+      ]
+    },
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    },
+    // Mock de módulos CSS
+    server: {
+      deps: {
+        inline: ['vuetify']
+      }
+    }
+  },
   optimizeDeps: {
     exclude: [
       'vuetify',
@@ -71,6 +97,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('src', import.meta.url)),
+      '.css': fileURLToPath(new URL('./tests/mocks/cssMock.js', import.meta.url)),
+      '.scss': fileURLToPath(new URL('./tests/mocks/cssMock.js', import.meta.url))
     },
     extensions: [
       '.js',
