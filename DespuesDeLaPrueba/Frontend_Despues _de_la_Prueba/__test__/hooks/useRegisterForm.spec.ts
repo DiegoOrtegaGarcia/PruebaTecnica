@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
-import { useRegisterForm } from '@/hooks/Pages/useRegisterForm'
+import { useRegisterForm } from '@/modules/register/hooks/useRegisterForm'
 
 // Mock de las dependencias
 vi.mock('@/helpers/Api/registerUser', () => ({
@@ -35,7 +35,7 @@ describe('useRegisterForm', () => {
   it('initializes form fields', () => {
     const alertMessage = vi.fn()
     const finishMessage = vi.fn()
-    
+
     const { name, email, password, isLoading, submit } = useRegisterForm(alertMessage, finishMessage)
 
     expect(name).toBeDefined()

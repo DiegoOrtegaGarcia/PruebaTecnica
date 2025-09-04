@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { ref } from 'vue'
-import { orderAge } from '../../src/helpers/orderByAge'
+import { orderAge } from '../../src/core/utils/orderByAge'
 
 describe('orderByAge', () => {
   it('should order users by age ascending', () => {

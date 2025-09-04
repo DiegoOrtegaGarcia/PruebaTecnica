@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { useLoginForm } from '../../src/hooks/Pages/useLoginForm'
+import { useLoginForm } from '../../src/modules/login/hooks/useLoginForm'
 
 // Mock vee-validate and loginUser
 vi.mock('vee-validate', () => ({
@@ -20,7 +20,7 @@ describe('useLoginForm', () => {
   it('initializes form fields', () => {
     const alertMessage = vi.fn()
     const finishMessage = vi.fn()
-    
+
     const { password, email, isLoading, submit } = useLoginForm(alertMessage, finishMessage)
 
     expect(password).toBeDefined()

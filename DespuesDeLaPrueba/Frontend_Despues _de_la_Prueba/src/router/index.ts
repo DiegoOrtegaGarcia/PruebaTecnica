@@ -10,7 +10,7 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 // eslint-disable-next-line import/no-duplicates
 import { routes } from 'vue-router/auto-routes'
-import { isAuthenticated } from '@/helpers/tokenHelpers' // Asegúrate de que esta función exista (usa tu helper de token)
+import { isAuthenticated } from '@/core/utils/tokenHelpers' // Asegúrate de que esta función exista (usa tu helper de token)
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
     next('/login?redirect=' + encodeURIComponent(to.fullPath))
   } else if (!isAuthRequired && isAuthenticated()) {
     // Si ya está autenticado y trata de acceder a login/register, redirige a inicio
-    next('/pages')
+    next('/users')
   } else {
     // Permite la navegación
     next()

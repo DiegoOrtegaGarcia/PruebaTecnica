@@ -1,4 +1,4 @@
-import type { userData } from '@/types/types'
+import type { userData } from '@/core/types/types'
 // Utilities
 import { defineStore } from 'pinia'
 import { ref } from 'vue'

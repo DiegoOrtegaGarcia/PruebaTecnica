@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { setAuthToken, getAuthToken, removeAuthToken, isAuthenticated } from '../../src/helpers/tokenHelpers'
+import { setAuthToken, getAuthToken, removeAuthToken, isAuthenticated } from '../../src/core/utils/tokenHelpers'
 
 // Mock js-cookie
 vi.mock('js-cookie', () => ({
@@ -21,9 +21,9 @@ describe('tokenHelpers', () => {
   describe('setAuthToken', () => {
     it('should set auth token with correct parameters', () => {
       const token = 'test-token-123'
-      
+
       setAuthToken(token, 2)
-      
+
       expect(Cookies.set).toHaveBeenCalledWith('authToken', token, {
         expires: 2,
         path: '/',
@@ -36,9 +36,9 @@ describe('tokenHelpers', () => {
     it('should return auth token', () => {
       const mockToken = 'test-token'
       vi.mocked(Cookies.get).mockReturnValue(mockToken)
-      
+
       const result = getAuthToken()
-      
+
       expect(Cookies.get).toHaveBeenCalledWith('authToken')
       expect(result).toBe(mockToken)
     })
@@ -47,7 +47,7 @@ describe('tokenHelpers', () => {
   describe('removeAuthToken', () => {
     it('should remove auth token', () => {
       removeAuthToken()
-      
+
       expect(Cookies.remove).toHaveBeenCalledWith('authToken', { path: '/' })
     })
   })
@@ -55,17 +55,17 @@ describe('tokenHelpers', () => {
   describe('isAuthenticated', () => {
     it('should return true when token exists', () => {
       vi.mocked(Cookies.get).mockReturnValue('test-token')
-      
+
       const result = isAuthenticated()
-      
+
       expect(result).toBe(true)
     })
 
     it('should return false when token does not exist', () => {
       vi.mocked(Cookies.get).mockReturnValue(undefined)
-      
+
       const result = isAuthenticated()
-      
+
       expect(result).toBe(false)
     })
   })
